@@ -11,13 +11,13 @@ spec:
       targetPort: 12000
   github:
     argo-combined-app:
-      owner: vfarcic
+      owner: ansel1
       repository: argo-combined-app
       webhook:
         endpoint: /argo-combined-app
         port: "12000"
         method: POST
-        url: http://webhook.127.0.0.1.nip.io
+        url: http://webhook.localdev.me
       events:
         - "*"
       apiToken:

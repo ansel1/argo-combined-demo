@@ -77,7 +77,7 @@ spec:
                       - name: environment
                         value: staging
                       - name: repo_owner
-                        value: vfarcic
+                        value: ansel1
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
@@ -98,7 +98,7 @@ spec:
                       - name: environment
                         value: production
                       - name: repo_owner
-                        value: vfarcic
+                        value: ansel1
                       - name: repo_name
                         value: argo-combined-demo
                       - name: image_owner
