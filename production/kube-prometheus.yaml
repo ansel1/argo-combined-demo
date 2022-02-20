@@ -16,7 +16,7 @@ spec:
       exclude: jsonnetfile.*
       jsonnet:
         libs:
-          - vendor
+          - kube-prometheus/vendor
     path: kube-prometheus
     repoURL: https://github.com/ansel1/argo-combined-demo.git
     targetRevision: HEAD
