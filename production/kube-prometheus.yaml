@@ -18,7 +18,7 @@ spec:
           - vendored
       recurse: true
     path: kube-prometheus
-    repoURL: git@github.com:ansel1/argo-combined-demo.git
+    repoURL: https://github.com/ansel1/argo-combined-demo.git
     targetRevision: HEAD
   syncPolicy:
     automated:
