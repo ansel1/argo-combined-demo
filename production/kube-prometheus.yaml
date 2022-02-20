@@ -16,7 +16,6 @@ spec:
       jsonnet:
         libs:
           - vendored
-      recurse: true
     path: kube-prometheus
     repoURL: https://github.com/ansel1/argo-combined-demo.git
     targetRevision: HEAD
