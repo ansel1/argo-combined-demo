@@ -10,7 +10,7 @@ spec:
   destination:
     namespace: monitoring
     server: https://kubernetes.default.svc
-  project: monitoring
+  project: production
   source:
     directory:
       jsonnet:
