@@ -15,6 +15,12 @@ spec:
       values: |
         nodeExporter:
           hostRootfs: false
+        server:
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - prometheus
   destination:
     namespace: monitoring
     server: https://kubernetes.default.svc
