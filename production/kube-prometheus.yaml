@@ -13,7 +13,7 @@ spec:
   project: production
   source:
     directory:
-      include: kube-prometheus.jsonnet
+      exclude: jsonnetfile.*
       jsonnet:
         libs:
           - vendored
