@@ -4,6 +4,22 @@ local kp = (import 'kube-prometheus/main.libsonnet') + {
             namespace: 'monitoring',
         },
     },
+    // mountPropagation=HostToContainer doesn't work with docker for mac
+    nodeExporter+: {
+        daemonset+: {
+            spec+: {
+                template+: {
+                    spec+: {
+                        containers: [
+                            super.containers[0] + {
+                                volumeMounts: [ m + { mountPropagation: 'None' } for m in super.volumeMounts ]
+                            }
+                        ] + super.containers[1:]
+                    }
+                }
+            }
+        }
+    }
 };
 
 [kp.kubePrometheus[name] for name in std.objectFields(kp.kubePrometheus)] +
