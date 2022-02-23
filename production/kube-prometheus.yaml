@@ -13,7 +13,7 @@ spec:
   project: production
   source:
     directory:
-      exclude: jsonnetfile.*
+      include: kube-prometheus-argocd.jsonnet
       jsonnet:
         libs:
           - kube-prometheus/vendor
