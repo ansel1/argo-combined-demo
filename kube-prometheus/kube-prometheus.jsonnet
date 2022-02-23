@@ -1,3 +1,40 @@
+local ingress(svc) = {
+    ingress: {
+        apiVersion: "networking.k8s.io/v1",
+        kind: "Ingress",
+        metadata: {
+          name: svc.metadata.name,
+          annotations: {
+            "ingress.kubernetes.io/ssl-redirect": "false",
+            "nginx.ingress.kubernetes.io/ssl-redirect": "false",
+            "ingress.kubernetes.io/rewrite-target": "/",
+            "nginx.ingress.kubernetes.io/rewrite-target": "/",
+            "kubernetes.io/ingress.class": "nginx"
+          },
+          namespace: svc.metadata.namespace,
+        },
+        spec: {
+          rules: [{
+            http: {
+              paths: [{
+                path: "/",
+                pathType: "ImplementationSpecific",
+                backend: {
+                  service: {
+                    name: svc.metadata.name,
+                    port: {
+                      number: portSpec.port
+                    }
+                  }
+                }
+              }]
+            },
+            host: svc.metadata.name + (if i > 0 then "-" + portSpec.name else "") + ".localdev.me"
+          } for i in std.range(0, std.length(svc.spec.ports) -1)
+            for portSpec in [svc.spec.ports[i]]]
+        }
+    }
+};
 
 local kp =
   (import 'kube-prometheus/main.libsonnet') +
@@ -28,46 +65,18 @@ local kp =
                     }
                 }
             }
-        }
-    },
+        },
+    } + ingress(kp.nodeExporter.service),
     // ingress for grafana
-    grafana+: {
-        ingress: {
-            apiVersion: "networking.k8s.io/v1",
-            kind: "Ingress",
-            metadata: {
-              name: "grafana",
-              annotations: {
-                "ingress.kubernetes.io/ssl-redirect": "false",
-                "nginx.ingress.kubernetes.io/ssl-redirect": "false",
-                "ingress.kubernetes.io/rewrite-target": "/",
-                "nginx.ingress.kubernetes.io/rewrite-target": "/",
-                "kubernetes.io/ingress.class": "nginx"
-              }
-            },
-            spec: {
-              rules: [{
-                http: {
-                  paths: [{
-                    path: "/",
-                    pathType: "ImplementationSpecific",
-                    backend: {
-                      service: {
-                        name: "grafana",
-                        port: {
-                          number: 3000
-                        }
-                      }
-                    }
-                  }]
-                },
-                host: "grafana.localdev.me"
-              }]
-            }
-        }
-    }
-
+    grafana+: ingress(kp.grafana.service),
+    prometheus+: ingress(kp.prometheus.service),
+    prometheusAdapter+: ingress(kp.prometheusAdapter.service),
+    kubeStateMetrics+: ingress(kp.kubeStateMetrics.service),
+    blackboxExporter+: ingress(kp.blackboxExporter.service),
+    alertmanager+: ingress(kp.alertmanager.service),
   };
+
+
 
 { 'setup/0namespace-namespace': kp.kubePrometheus.namespace } +
 {
