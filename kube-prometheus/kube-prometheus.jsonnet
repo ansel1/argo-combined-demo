@@ -74,6 +74,16 @@ local kp =
     kubeStateMetrics+: ingress(kp.kubeStateMetrics.service),
     blackboxExporter+: ingress(kp.blackboxExporter.service),
     alertmanager+: ingress(kp.alertmanager.service),
+    prometheusOperator+: {
+        "0prometheusCustomResourceDefinition"+: {
+            metadata+: {
+                annotations+: {
+                    "argocd.argoproj.io/sync-options": "Replace=true"
+                }
+            }
+
+        }
+    }
   };
 
 
