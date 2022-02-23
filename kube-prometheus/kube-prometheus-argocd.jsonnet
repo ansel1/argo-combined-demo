@@ -1,4 +1,4 @@
-local kp = (import 'example.jsonnet');
+local kp = (import 'kube-prometheus.jsonnet');
 
 [kp[k] for k in std.objectFields(kp)]
 
