@@ -13,11 +13,8 @@ spec:
   project: production
   source:
     directory:
-      include: kube-prometheus-argocd.jsonnet
-      jsonnet:
-        libs:
-          - kube-prometheus/vendor
-    path: kube-prometheus
+      recurse: true
+    path: kube-prometheus/manifests
     repoURL: https://github.com/ansel1/argo-combined-demo.git
     targetRevision: HEAD
   syncPolicy:

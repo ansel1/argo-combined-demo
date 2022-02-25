@@ -50,6 +50,15 @@ local kp =
       common+: {
         namespace: 'monitoring',
       },
+      alertmanager+: {
+        replicas: 1
+      },
+      prometheus+: {
+        replicas: 1
+      },
+      prometheusAdapter+: {
+        replicas: 1
+      }
     },
     // mountPropagation=HostToContainer doesn't work with docker for mac
     nodeExporter+: {
@@ -66,14 +75,9 @@ local kp =
                 }
             }
         },
-    } + ingress(kp.nodeExporter.service),
+    },
     // ingress for grafana
     grafana+: ingress(kp.grafana.service),
-    prometheus+: ingress(kp.prometheus.service),
-    prometheusAdapter+: ingress(kp.prometheusAdapter.service),
-    kubeStateMetrics+: ingress(kp.kubeStateMetrics.service),
-    blackboxExporter+: ingress(kp.blackboxExporter.service),
-    alertmanager+: ingress(kp.alertmanager.service),
     prometheusOperator+: {
         "0prometheusCustomResourceDefinition"+: {
             metadata+: {
@@ -81,7 +85,6 @@ local kp =
                     "argocd.argoproj.io/sync-options": "Replace=true"
                 }
             }
-
         }
     }
   };
