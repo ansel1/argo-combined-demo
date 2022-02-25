@@ -5,7 +5,5 @@ resources:
 - event-sources.yaml
 - sensors.yaml
 - githubcred.yaml
-patches:
-  - path: event-bus-patch.yaml
 namespace: argo-events
 
