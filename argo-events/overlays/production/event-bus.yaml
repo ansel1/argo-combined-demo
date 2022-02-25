@@ -1,0 +1,5 @@
+spec:
+  nats:
+    native:
+      replicas: 1
+
